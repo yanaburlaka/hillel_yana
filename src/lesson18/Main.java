@@ -2,25 +2,26 @@ package lesson18;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Iterator;
 
 public class Main {
 
     public static void main(String[] args) {
-        Object[] arr = {1, 3, 4};
-        MyCollection myCollection = new MyCollection(arr);
-        Object[] my = myCollection.toArray();
-        for (int i = 0; i < my.length; i++) {
-            System.out.println(my[i]);
-        }
-        System.out.println(myCollection.contains(2));
-        myCollection.add(2);
-        for (int i = 0; i < myCollection.size(); i++) {
-            System.out.println(Array.get(myCollection.toArray(), i));
-        }
-        System.out.println();
-        myCollection.remove(3);
-        for (int i = 0; i < myCollection.size(); i++) {
-            System.out.println(Array.get(myCollection.toArray(), i));
+
+        Student stud = new Student("Ivan", "Ivanov");
+        Student stud2 = new Student("Roman", "Ivanov");
+        MyCollection myCollection = new MyCollection();
+        myCollection.add(stud);
+        myCollection.add(stud2);
+        Object[] objects = myCollection.toArray();
+        objects[0] = null;
+        objects[1] = null;
+        System.out.println(myCollection.size());
+
+        Iterator iterator = myCollection.iterator();
+        while (iterator.hasNext()){
+            Object o = iterator.next();
+            System.out.println(o);
         }
 
     }

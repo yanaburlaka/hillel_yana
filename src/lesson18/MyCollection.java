@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 public class MyCollection implements Collection {
 
-    private Object[] objects;
+    private Object[] objects = new Object[0];
 
     public Object[] getObjects() {
         return objects;
@@ -39,9 +39,8 @@ public class MyCollection implements Collection {
 
     @Override
     public boolean contains(Object o) {
-        int counter = 0;
         for(Object obj: objects) {
-            if (obj == o) {
+            if (obj.equals(o)) {
                 return true;
             }
         }
@@ -50,12 +49,32 @@ public class MyCollection implements Collection {
 
     @Override
     public Iterator iterator() {
-        return null;
+        return new Iterator() { //anonym
+
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < objects.length;
+            }
+
+            @Override
+            public Object next() {
+                if (index == objects.length) {
+                    throw new IndexOutOfBoundsException("oh");
+                }
+                Object result = objects[index];
+                index++;
+                return result;
+            }
+
+
+        };
     }
 
     @Override
     public Object[] toArray() {
-        int size = this.size();
+        int size = size();
         Object[] result = new Object[size];
         for (int i = 0; i < size; i++) {
             result[i] = objects[i];
@@ -65,14 +84,13 @@ public class MyCollection implements Collection {
 
     @Override
     public boolean add(Object o) {
-        int size = this.size();
-        Object[] result = new Object[this.size() + 1];
+        int size = size();
+        Object[] result = new Object[size + 1];
         for (int i = 0; i < size; i++) {
             result[i] = objects[i];
-            if (i == size - 1) {
-                result[i] = o;
-            }
         }
+        result[size] = o;
+        objects = result;
         return true;
     }
 
@@ -101,12 +119,15 @@ public class MyCollection implements Collection {
 
     @Override
     public boolean addAll(Collection c) {
-        return false;
+        for (Object o : c){
+            add(o);
+        }
+        return true;
     }
 
     @Override
     public void clear() {
-
+        objects = new Object[0];
     }
 
     @Override
@@ -128,4 +149,6 @@ public class MyCollection implements Collection {
     public Object[] toArray(Object[] a) {
         return new Object[0];
     }
+
+
 }

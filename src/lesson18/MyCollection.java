@@ -1,5 +1,6 @@
 package lesson18;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -7,19 +8,7 @@ public class MyCollection implements Collection {
 
     private Object[] objects = new Object[0];
 
-    public Object[] getObjects() {
-        return objects;
-    }
-
-    public void setObjects(Object[] objects) {
-        this.objects = objects;
-    }
-
     public MyCollection() {
-    }
-
-    public MyCollection(Object[] objects) {
-        this.objects = objects;
     }
 
     @Override
@@ -31,15 +20,14 @@ public class MyCollection implements Collection {
     public boolean isEmpty() {
         if (this.size() == 0) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     @Override
     public boolean contains(Object o) {
-        for(Object obj: objects) {
+        for (Object obj : objects) {
             if (obj.equals(o)) {
                 return true;
             }
@@ -49,7 +37,7 @@ public class MyCollection implements Collection {
 
     @Override
     public Iterator iterator() {
-        return new Iterator() { //anonym
+        return new Iterator() { //anonymous
 
             private int index = 0;
 
@@ -67,8 +55,6 @@ public class MyCollection implements Collection {
                 index++;
                 return result;
             }
-
-
         };
     }
 
@@ -96,18 +82,16 @@ public class MyCollection implements Collection {
 
     @Override
     public boolean remove(Object o) {
-        if (this.contains(o) == false) {
+        if (contains(o)== false) {
             return false;
-        }
-        else {
+        } else {
             int size = this.size();
             int index = 0;
             Object[] result = new Object[this.size() - 1];
             for (int i = 0; i < result.length; i++) {
-                if (objects[i] == o){
+                if (objects[i] == o) {
                     continue;
-                }
-                else {
+                } else {
                     result[index] = objects[i];
                     index++;
                 }
@@ -119,7 +103,7 @@ public class MyCollection implements Collection {
 
     @Override
     public boolean addAll(Collection c) {
-        for (Object o : c){
+        for (Object o : c) {
             add(o);
         }
         return true;
@@ -137,7 +121,10 @@ public class MyCollection implements Collection {
 
     @Override
     public boolean removeAll(Collection c) {
-        return false;
+        for (Object o : c) {
+            remove(o);
+        }
+        return true;
     }
 
     @Override
@@ -150,5 +137,10 @@ public class MyCollection implements Collection {
         return new Object[0];
     }
 
-
+    @Override
+    public String toString() {
+        return "MyCollection{" +
+                "objects=" + Arrays.toString(objects) +
+                '}';
+    }
 }

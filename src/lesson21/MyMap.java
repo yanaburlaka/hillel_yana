@@ -22,6 +22,12 @@ public class MyMap<K, V> {
             this.value = value;
             this.next = next;
         }
+
+        public String entryToString() {
+            return "Entry{" +
+                    key + " = " + value +
+                    '}';
+        }
     }
 
     public void put(K key, V value) {
@@ -49,7 +55,23 @@ public class MyMap<K, V> {
         }
     }
 
-
+    public V get(K keyToGet) {
+        int index = getHashCode(keyToGet);
+        V valueToGet = null;
+        Entry<K, V> existingEntry = entries[index];
+        if (existingEntry == null) {
+            System.out.println("We don't have this country, sorry");
+        } else {
+            while (existingEntry.next != null) {
+                if (existingEntry.key.equals(keyToGet)) {
+                    valueToGet = existingEntry.value;
+                    return valueToGet;
+                }
+                existingEntry = existingEntry.next;
+            }
+        }
+        return valueToGet;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -69,4 +91,18 @@ public class MyMap<K, V> {
         return i;
     }
 
+    @Override
+    public String toString() {
+        String result = "";
+        for (Entry en : entries) {
+            if (en != null) {
+                result = result.concat(en.entryToString());
+                while (en.next != null) {
+                    en = en.next;
+                    result = result.concat(en.entryToString());
+                }
+            }
+        }
+        return result;
+    }
 }
